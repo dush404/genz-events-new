@@ -197,11 +197,18 @@ if (messageTextarea) {
 }
 
 // ===========================
-// Form Validation & Submission
+// Form Validation & Submission with EmailJS
 // ===========================
 const contactForm = document.getElementById("contact-form");
 
+// Form submission handling
+let isSubmitting = false; // Prevent double submission
+
 contactForm.addEventListener("submit", (e) => {
+  if (isSubmitting) {
+    e.preventDefault();
+    return;
+  }
   e.preventDefault();
 
   // Get form values
@@ -241,23 +248,72 @@ contactForm.addEventListener("submit", (e) => {
     return;
   }
 
-  // Simulate form submission
+  // Update button state
   const submitBtn = contactForm.querySelector(".btn-submit");
   submitBtn.innerHTML =
     '<span>Sending...</span><i class="fas fa-spinner fa-spin"></i>';
   submitBtn.disabled = true;
 
-  // Simulate API call
-  setTimeout(() => {
-    showNotification("Thank you! We will contact you soon.", "success");
-    contactForm.reset();
-    submitBtn.innerHTML =
-      '<span>Submit Request</span><i class="fas fa-paper-plane"></i>';
-    submitBtn.disabled = false;
+  // Send email using EmailJS
+  isSubmitting = true;
 
-    // Log form data (In production, send to backend)
-    console.log("Form submitted:", formData);
-  }, 2000);
+  // Show sending notification
+  showNotification("Sending your request...", "info");
+
+  // Debug log
+  console.log("Attempting to send email with data:", {
+    service: "service_yunhtzm",
+    template: "template_25wyx6b",
+    data: {
+      from_name: formData.name,
+      email: formData.email,
+      event_type: formData.eventType,
+    },
+  });
+
+  emailjs
+    .send("service_yunhtzm", "template_25wyx6b", {
+      from_name: formData.name,
+      to_email: "genzeventsz@gmail.com",
+      phone_number: formData.phone,
+      email: formData.email,
+      event_type: formData.eventType,
+      event_date: formData.date,
+      guests: formData.guests,
+      message: formData.message,
+      reply_to: formData.email, // Add this to enable direct reply
+    })
+    .then(function (response) {
+      console.log("Email sent successfully!", response);
+      showNotification(
+        `Thank you ${formData.name}! Your event request has been sent. We will contact you soon at ${formData.email}`,
+        "success"
+      );
+      contactForm.reset();
+
+      // Store submission timestamp
+      localStorage.setItem("lastFormSubmission", new Date().toISOString());
+    })
+    .catch(function (error) {
+      console.error("Email sending failed:", error);
+      let errorMessage = "Failed to send message. ";
+
+      // More detailed error handling
+      if (error.text) {
+        errorMessage += error.text;
+      } else if (error.message) {
+        errorMessage += error.message;
+      } else {
+        errorMessage += "Please try again later.";
+      }
+      showNotification(errorMessage, "error");
+    })
+    .finally(function () {
+      submitBtn.innerHTML =
+        '<span>Submit Request</span><i class="fas fa-paper-plane"></i>';
+      submitBtn.disabled = false;
+      isSubmitting = false;
+    });
 });
 
 // ===========================
@@ -273,10 +329,32 @@ function showNotification(message, type) {
   // Create notification element
   const notification = document.createElement("div");
   notification.className = `notification ${type}`;
+
+  // Choose icon based on notification type
+  let icon = "exclamation-circle";
+  let bgColor = "#ef4444";
+
+  switch (type) {
+    case "success":
+      icon = "check-circle";
+      bgColor = "#10b981";
+      break;
+    case "info":
+      icon = "info-circle";
+      bgColor = "#3b82f6";
+      break;
+    case "warning":
+      icon = "exclamation-triangle";
+      bgColor = "#f59e0b";
+      break;
+    case "error":
+      icon = "exclamation-circle";
+      bgColor = "#ef4444";
+      break;
+  }
+
   notification.innerHTML = `
-        <i class="fas fa-${
-          type === "success" ? "check-circle" : "exclamation-circle"
-        }"></i>
+        <i class="fas fa-${icon}"></i>
         <span>${message}</span>
     `;
 
@@ -285,7 +363,7 @@ function showNotification(message, type) {
         position: fixed;
         top: 100px;
         right: 20px;
-        background: ${type === "success" ? "#10b981" : "#ef4444"};
+        background: ${bgColor};
         color: white;
         padding: 15px 25px;
         border-radius: 10px;
@@ -296,6 +374,8 @@ function showNotification(message, type) {
         animation: slideIn 0.3s ease-out;
         box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
         font-weight: 600;
+        min-width: 300px;
+        max-width: 500px;
     `;
 
   document.body.appendChild(notification);
