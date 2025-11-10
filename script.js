@@ -368,55 +368,6 @@ document.querySelectorAll(".service-card").forEach((card, index) => {
 });
 
 // ===========================
-// Scroll to Top Button
-// ===========================
-const scrollTopBtn = document.createElement("button");
-scrollTopBtn.innerHTML = '<i class="fas fa-arrow-up"></i>';
-scrollTopBtn.className = "scroll-top-btn";
-scrollTopBtn.style.cssText = `
-    position: fixed;
-    bottom: 30px;
-    right: 30px;
-    width: 50px;
-    height: 50px;
-    background: linear-gradient(135deg, #d4af37 0%, #1a7a79 100%);
-    color: white;
-    border: none;
-    border-radius: 50%;
-    font-size: 20px;
-    cursor: pointer;
-    z-index: 1000;
-    display: none;
-    box-shadow: 0 5px 20px rgba(212, 175, 55, 0.3);
-    transition: all 0.3s ease;
-`;
-
-document.body.appendChild(scrollTopBtn);
-
-window.addEventListener("scroll", () => {
-  if (window.scrollY > 500) {
-    scrollTopBtn.style.display = "block";
-  } else {
-    scrollTopBtn.style.display = "none";
-  }
-});
-
-scrollTopBtn.addEventListener("click", () => {
-  window.scrollTo({
-    top: 0,
-    behavior: "smooth",
-  });
-});
-
-scrollTopBtn.addEventListener("mouseenter", () => {
-  scrollTopBtn.style.transform = "translateY(-5px) scale(1.1)";
-});
-
-scrollTopBtn.addEventListener("mouseleave", () => {
-  scrollTopBtn.style.transform = "translateY(0) scale(1)";
-});
-
-// ===========================
 // Prevent Form Resubmission
 // ===========================
 if (window.history.replaceState) {

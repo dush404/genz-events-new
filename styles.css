@@ -1019,6 +1019,8 @@ body {
   color: var(--white);
   padding: 60px 0 20px;
   border-top: 1px solid rgba(255, 255, 255, 0.1);
+  border-top: 2px dotted var(--gold);
+  border-radius: 20px 20px 0px 0px;
 }
 
 .footer-content {
@@ -1148,6 +1150,7 @@ body {
   }
 
   .hero-title {
+    margin-top: 60px;
     font-size: 3rem;
   }
 
@@ -1178,16 +1181,37 @@ body {
     margin-bottom: 40px;
   }
 
+  .about-features {
+    grid-template-columns: 1fr;
+  }
+
   .visual-card {
     position: static;
+    height: 60px;
+    width: 80%;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    padding: 10px;
   }
+  .about-text {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+  }
+
   .contact-content {
     grid-template-columns: 1fr;
   }
 
   .contact-info {
+    padding: 15px;
     order: 1;
     margin-top: 40px;
+    border-right: none;
+    padding-right: 0;
   }
 
   .form-row {
@@ -1197,7 +1221,15 @@ body {
   .footer-content {
     grid-template-columns: 1fr;
     text-align: center;
-}
+  }
+
+  .footer-logo-container {
+    justify-content: center;
+  }
+
+  .footer-about {
+    align-items: center;
+  }
 
   .footer-contact p {
     justify-content: center;
@@ -1214,8 +1246,11 @@ body {
   .btn {
     padding: 12px 25px;
     font-size: 14px;
+  }
 }
-
+.about-text .section-title {
+  text-align: center;
+}
 .btn {
   max-width: 300px;
 }
