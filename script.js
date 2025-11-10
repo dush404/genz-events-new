@@ -11,7 +11,7 @@ window.addEventListener("load", function () {
       preloader.style.display = "none";
     }
     content.style.display = "block";
-  }, 1000); // 5000 milliseconds = 5 seconds
+  }, 3000); // 5000 milliseconds = 5 seconds
 });
 
 // ===========================
