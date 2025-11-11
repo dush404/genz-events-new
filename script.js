@@ -201,14 +201,7 @@ if (messageTextarea) {
 // ===========================
 const contactForm = document.getElementById("contact-form");
 
-// Form submission handling
-let isSubmitting = false; // Prevent double submission
-
 contactForm.addEventListener("submit", (e) => {
-  if (isSubmitting) {
-    e.preventDefault();
-    return;
-  }
   e.preventDefault();
 
   // Get form values
@@ -218,7 +211,7 @@ contactForm.addEventListener("submit", (e) => {
     email: document.getElementById("email").value,
     eventType: document.getElementById("event-type").value,
     date: document.getElementById("date").value,
-    guests: document.getElementById("guests").value,
+    // guests: document.getElementById("guests").value, // Removed as field is commented out in HTML
     message: document.getElementById("message").value,
   };
 
@@ -255,9 +248,6 @@ contactForm.addEventListener("submit", (e) => {
   submitBtn.disabled = true;
 
   // Send email using EmailJS
-  isSubmitting = true;
-
-  // Show sending notification
   showNotification("Sending your request...", "info");
 
   // Debug log
@@ -273,13 +263,13 @@ contactForm.addEventListener("submit", (e) => {
 
   emailjs
     .send("service_yunhtzm", "template_25wyx6b", {
-      from_name: formData.name,
+      name: formData.name,
       to_email: "genzeventsz@gmail.com",
-      phone_number: formData.phone,
+      phone: formData.phone,
       email: formData.email,
-      event_type: formData.eventType,
-      event_date: formData.date,
-      guests: formData.guests,
+      eventtype: formData.eventType,
+      date: formData.date,
+
       message: formData.message,
       reply_to: formData.email, // Add this to enable direct reply
     })
@@ -312,7 +302,6 @@ contactForm.addEventListener("submit", (e) => {
       submitBtn.innerHTML =
         '<span>Submit Request</span><i class="fas fa-paper-plane"></i>';
       submitBtn.disabled = false;
-      isSubmitting = false;
     });
 });
 
@@ -362,7 +351,8 @@ function showNotification(message, type) {
   notification.style.cssText = `
         position: fixed;
         top: 100px;
-        right: 20px;
+        left: 50%;
+        transform: translateX(-50%);
         background: ${bgColor};
         color: white;
         padding: 15px 25px;
@@ -371,7 +361,7 @@ function showNotification(message, type) {
         align-items: center;
         gap: 10px;
         z-index: 10000;
-        animation: slideIn 0.3s ease-out;
+        animation: slideIn 0.3s linear;
         box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
         font-weight: 600;
         min-width: 300px;
@@ -382,7 +372,7 @@ function showNotification(message, type) {
 
   // Auto remove after 4 seconds
   setTimeout(() => {
-    notification.style.animation = "slideOut 0.3s ease-out";
+    notification.style.animation = "slideOut 0.3s linear";
     setTimeout(() => notification.remove(), 300);
   }, 4000);
 }

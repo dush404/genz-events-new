@@ -15,8 +15,6 @@
   --orange-accent: #ffffff;
   --black: #000000;
 }
-:root {
-}
 
 /* ===========================
    Global Styles
@@ -148,7 +146,7 @@ body {
    =========================== */
 .hero-section {
   min-height: 100vh;
-  background: radial-gradient(circle at center, #1a1a2e, #0f0f1a);
+  background: black;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -330,7 +328,7 @@ body {
   );
   filter: blur(6px);
   animation: float 20s linear infinite;
-  z-index: 0;
+  z-index: 2; /* visible background blur */
   pointer-events: none;
 }
 
@@ -356,7 +354,7 @@ body {
   display: flex;
   justify-content: center;
   padding-top: 20px;
-  z-index: 0; /* behind overlay and hero content */
+  z-index: 10; /* above stars but below hero-content */
 }
 
 .light-string {
@@ -399,6 +397,15 @@ body {
   z-index: 2; /* ensure bulb renders above its hanging thread */
 }
 
+@keyframes glow {
+  0% {
+    filter: brightness(1.2) drop-shadow(0 0 8px currentColor);
+  }
+  100% {
+    filter: brightness(1.5) drop-shadow(0 0 20px currentColor);
+  }
+}
+
 .light::after {
   content: "";
   position: absolute;
@@ -408,7 +415,7 @@ body {
   left: 50%;
   transform: translateX(-50%);
   top: 0;
-  height: 90px; /* default height — overridden by inline style injected by JS */
+  height: var(--thread-height, 90px); /* reads --thread-height CSS var from JS */
 
   background: linear-gradient(
     to bottom,
@@ -463,7 +470,7 @@ body {
   border-radius: 50%;
   box-shadow: 0 0 5px white, 0 0 10px white;
   animation: twinkle 3s linear infinite;
-  z-index: 0;
+  z-index: 5; /* visible but behind lights */
 }
 
 @keyframes twinkle {
@@ -827,7 +834,8 @@ body {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 20px;
-  margin: 30px 0;
+  margin: 30px 0px;
+  padding-left: 25px;
 }
 
 .feature-item {
@@ -997,6 +1005,7 @@ body {
   pointer-events: none;
   transition: all 0.3s ease; /* Background removed to work with transparency */
   padding: 0 5px;
+  border-radius: 10px;
 }
 
 .form-group input:focus + label,
@@ -1043,7 +1052,6 @@ body {
 
 .form-group input::placeholder,
 .form-group textarea::placeholder {
-  /* Make placeholder invisible but still functional for the :not(:placeholder-shown) selector */
   color: transparent;
 }
 .form-group select {
@@ -1093,7 +1101,7 @@ body {
 .footer-content {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 50px;
+  gap: 20px;
   margin-bottom: 40px;
 }
 .footer-logo-container {
@@ -1203,8 +1211,8 @@ body {
     right: -100%;
     width: 300px;
     height: calc(100vh - 70px);
-    background: rgba(13, 5, 32, 0.98);
-    backdrop-filter: blur(10px);
+    background: rgba(13, 5, 32, 0.8);
+    backdrop-filter: blur(20px);
     flex-direction: column;
     padding: 40px 30px;
     gap: 20px;
@@ -1213,7 +1221,7 @@ body {
   }
 
   .nav-menu.active {
-    right: 0;
+    right: 0px;
   }
 
   .hero-title {
@@ -1248,10 +1256,6 @@ body {
     margin-bottom: 40px;
   }
 
-  .about-features {
-    grid-template-columns: 1fr;
-  }
-
   .visual-card {
     position: static;
     height: 60px;
@@ -1261,7 +1265,13 @@ body {
     flex-wrap: wrap;
     padding: 10px;
   }
-  .about-text {
+  .visual-card p {
+    display: none;
+  }
+  .visual-card h4 {
+    margin: 10px 20px;
+  }
+  .visual-card .about-text {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -1305,15 +1315,16 @@ body {
 
 .section-title {
   font-size: 2rem;
-  .logo {
-    font-size: 20px;
-    gap: 5px;
-  }
+}
+.logo {
+  font-size: 20px;
+  gap: 5px;
+}
 
-  .btn {
-    padding: 12px 25px;
-    font-size: 14px;
-  }
+.btn {
+  padding: 12px 25px;
+  font-size: 14px;
+  max-width: 300px;
 }
 .about-text .section-title {
   text-align: center;
@@ -1321,7 +1332,6 @@ body {
 .btn {
   max-width: 300px;
 }
-/* it's my code  */
 .preloader {
   position: fixed;
   top: 0;

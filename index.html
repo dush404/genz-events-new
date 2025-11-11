@@ -4,6 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Genz Events - Premium Event Management</title>
+    <link rel="icon" href="logo.png" type="image/png" />
     <link rel="stylesheet" href="styles.css" />
     <link
       rel="stylesheet"
@@ -30,15 +31,13 @@
     </script>
   </head>
   <body>
-    <!-- my own code 01 -->
+    <!-- loading page -->
     <div class="preloader">
       <div class="loader"></div>
       <p>it's Genz Events</p>
     </div>
 
     <div class="content">
-      <!-- Your website content goes here -->
-
       <!-- Navigation -->
       <nav class="navbar" id="navbar">
         <div class="nav-container">
@@ -80,6 +79,7 @@
           <h1 class="hero-title">
             Creating Unforgettable <br />
             <span class="highlight">Moments</span>
+            <p class="hero-subtitle">"You Dream:We Plan:You Celebrate"</p>
           </h1>
           <p class="hero-subtitle">
             Transforming your dreams into extraordinary celebrations with
@@ -665,28 +665,8 @@
             </p>
           </div>
           <div class="contact-content">
-            <!-- <div class="contact-info">
-              <h3>Let's Connect</h3>
-              <p>
-                We're excited to hear about your event! Reach out to us through
-                any of the channels below, and let's start planning something
-                unforgettable.
-              </p>
-              <div class="info-item">
-                <i class="fas fa-map-marker-alt"></i>
-                <span>Rourkela, Odisha, India</span>
-              </div>
-              <div class="info-item">
-                <a
-                  style="text-decoration: none; color: var(--white)"
-                  href="https://www.instagram.com/genz.eventsz?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw=="
-                  ><i class="fab fa-instagram"></i>
-                  <span>@genz.eventsz</span></a
-                >
-              </div>
-            </div> -->
             <div class="contact-form-container">
-              <form id="contact-form" class="contact-form">
+              <form id="contact-form" class="contact-form" novalidate>
                 <div class="form-row">
                   <div class="form-group">
                     <input
@@ -722,7 +702,7 @@
                   </div>
                   <div class="form-group">
                     <select id="event-type" name="event-type" required>
-                      <option value="">Select Event Type</option>
+                      <option value=""></option>
                       <option value="birthday">Birthday Party</option>
                       <option value="anniversary">Anniversary</option>
                       <option value="corporate">Corporate Event</option>
